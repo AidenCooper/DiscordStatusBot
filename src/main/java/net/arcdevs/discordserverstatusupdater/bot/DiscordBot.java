@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.exceptions.*;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -66,8 +67,16 @@ public class DiscordBot {
             return;
         }
 
-        if(status == ServerStatus.ONLINE) this.sendMessage(this.getOnlineStatusMessage(), ServerStatus.ONLINE);
-        else this.sendMessage(this.getOfflineStatusMessage(), ServerStatus.OFFLINE);
+        if(status == ServerStatus.ONLINE) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    DiscordBot.this.sendMessage(DiscordBot.this.getOnlineStatusMessage(), ServerStatus.ONLINE);
+                }
+            }.runTaskLater(MainPlugin.INSTANCE, 1L);
+        } else {
+            this.sendMessage(this.getOfflineStatusMessage(), ServerStatus.OFFLINE);
+        }
     }
 
     @NotNull
@@ -248,26 +257,13 @@ public class DiscordBot {
     }
 
     private void sendMessage(@NotNull final MessageEmbed embed, @NotNull final ServerStatus status) {
-        try {
-            Objects.requireNonNull(this.getClient().getTextChannelById(this.getChannelID())).editMessageEmbedsById(this.getMessageID(), embed).queue(null, (exception) -> {
-                this.sendNewMessage(embed, status);
-            });
-            return;
-        } catch (InsufficientPermissionException exception) {
-            MainPlugin.INSTANCE.getLogger().log(Level.SEVERE, "This bot has insufficient permissions. Change the bot's permissions then use /dssu reload.");
-            return;
-        } catch (IllegalArgumentException exception) {
-            this.sendNewMessage(embed, status);
-        }
+        try { Objects.requireNonNull(this.getClient().getTextChannelById(this.getChannelID())).editMessageEmbedsById(this.getMessageID(), embed).queue(null, (exception) -> this.sendNewMessage(embed, status)); }
+        catch (InsufficientPermissionException exception) { MainPlugin.INSTANCE.getLogger().log(Level.SEVERE, "This bot has insufficient permissions. Change the bot's permissions then use /dssu reload."); }
+        catch (IllegalArgumentException exception) { this.sendNewMessage(embed, status); }
     }
 
     private void sendNewMessage(@NotNull final MessageEmbed embed, @NotNull final ServerStatus status) {
-        if(status == ServerStatus.ONLINE) {
-            Objects.requireNonNull(this.getClient().getTextChannelById(this.getChannelID())).sendMessageEmbeds(embed).queue((message) -> {
-                this.setMessageID(message.getId());
-            });
-        } else {
-            MainPlugin.INSTANCE.getLogger().log(Level.WARNING, "Could not find the created message to modify. Sending new message on startup.");
-        }
+        if(status == ServerStatus.ONLINE) Objects.requireNonNull(this.getClient().getTextChannelById(this.getChannelID())).sendMessageEmbeds(embed).queue((message) -> this.setMessageID(message.getId()));
+        else MainPlugin.INSTANCE.getLogger().log(Level.WARNING, "Could not find the created message to modify. Sending new message on startup.");
     }
 }
