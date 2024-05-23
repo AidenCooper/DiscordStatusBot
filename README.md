@@ -15,6 +15,7 @@ DSSU is a discord bot plugin created to update information about your server in 
 dssu.reload
 
 ## Download
+https://www.spigotmc.org/resources/discord-server-status-updater-1-7-1-20.116918/
 
 
 
