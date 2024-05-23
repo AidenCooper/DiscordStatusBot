@@ -1,0 +1,14 @@
+name: 'DiscordServerStatusUpdater'
+version: '${version}'
+description: 'A lightweight minecraft plugin to showcase the status of your server with a single discord message.'
+
+main: net.arcdevs.discordserverstatusupdater.MainPlugin
+api-version: '1.13'
+
+# depend: [plugin,plugin]
+# softdepend: [plugin,plugin]
+
+commands:
+  dssu:
+    description: Discord Server Status Update main command.
+    permission: dssu.reload

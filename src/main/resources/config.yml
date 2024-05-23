@@ -1,0 +1,77 @@
+##################################################################
+########################### VERSION ##############################
+##################################################################
+# DO NOT EDIT
+config-version: 1
+
+##################################################################
+######################### AUTHENTICATION #########################
+##################################################################
+discord:
+  # Enable developer mode then right-click on the channel to copy its ID.
+  channel-id: ''
+
+  # Token can be found on the discord developer portal website for your bot. RESTART PLUGIN TO CHANGE.
+  token: ''
+
+  # DO NOT EDIT
+  message-id: ''
+
+##################################################################
+########################## MESSAGE INFO ##########################
+##################################################################
+message:
+  ####################################################
+  ### Everything is OPTIONAL except for title.text ###
+  ####################################################
+
+  ip-address: 'mc.mystic-legends.net'
+  port: '25565'
+  version: '1.20.4+'
+
+  online:
+    message: 'Whitelisted ➡ TBD'
+
+    author:
+      name: 'MysticLegends'
+      url: 'https://github.com/AidenCooper'
+      icon: 'https://i.ibb.co/kK1xNgt/ml-icon.png'
+    color: '#EAA845'
+    description: '➡ ONLINE'
+    field:
+      ip-address: 'IP Address'
+      port: ''
+      version: 'Version'
+      player-count: 'Player Count'
+      message: 'Message'
+    footer:
+      text: ''
+      icon: ''
+      show-timestamp: false
+    title:
+      text: 'Server Status' # REQUIRED
+      url: ''
+    thumbnail: 'https://i.ibb.co/s3YqgcN/ml-transparent-icon.png'
+
+  offline:
+    message: 'Whitelisted ➡ TBD'
+
+    author:
+      name: 'Mystic Legends'
+      url: 'https://github.com/AidenCooper'
+      icon: 'https://i.ibb.co/kK1xNgt/ml-icon.png'
+    color: '#69110D'
+    description: '➡ OFFLINE'
+    field:
+      ip-address: 'IP Address'
+      port: ''
+      version: 'Version'
+      message: 'Message'
+    footer:
+      text: ''
+      icon: ''
+      show-timestamp: false
+    title:
+      text: 'Server Status' # REQUIRED
+      url: ''
+    thumbnail: 'https://i.ibb.co/w68Ffp0/server-icon-icon.png'
