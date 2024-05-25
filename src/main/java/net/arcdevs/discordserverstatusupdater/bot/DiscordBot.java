@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.exceptions.*;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,7 +59,7 @@ public class DiscordBot {
 
     public void updateStatusMessage(@NotNull final ServerStatus status) {
         try {
-            if (this.getChannelID().isBlank() || this.getClient().getTextChannelById(this.getChannelID()) == null) {
+            if (StringUtils.isBlank(this.getChannelID()) || this.getClient().getTextChannelById(this.getChannelID()) == null) {
                 MainPlugin.INSTANCE.getLogger().log(Level.SEVERE, "Could not find the specified channel. Check the discord bot permissions and/or the channel-id in the config.yml file then use /dssu reload.");
                 return;
             }
@@ -128,11 +129,11 @@ public class DiscordBot {
             builder.setColor(Color.decode(color));
         } catch (NumberFormatException ignored) {}
 
-        if(!description.isBlank()) {
+        if(StringUtils.isNotBlank(description)) {
             builder.setDescription(description);
         }
 
-        if(!footerText.isBlank()) {
+        if(StringUtils.isNotBlank(footerText)) {
             if(foundFooterIcon) {
                 builder.setFooter(footerText, footerIcon);
             } else {
@@ -145,13 +146,13 @@ public class DiscordBot {
         }
 
         if(foundTitleIcon) {
-            if(titleText.isBlank()) {
+            if(StringUtils.isBlank(titleText)) {
                 builder.setTitle("Example", titleURL);
             } else {
                 builder.setTitle(titleText, titleURL);
             }
         } else {
-            if(titleText.isBlank()) {
+            if(StringUtils.isBlank(titleText)) {
                 builder.setTitle("Example");
             } else {
                 builder.setTitle(titleText);
@@ -160,11 +161,10 @@ public class DiscordBot {
 
         if(foundThumbnail) builder.setThumbnail(thumbnail);
 
-        if(!ip.isBlank() && !fieldIP.isBlank()) builder.addField(fieldIP, ip, false);
-        if(!port.isBlank() && !fieldPort.isBlank()) builder.addField(fieldPort, port, false);
-        if(!version.isBlank() && !fieldVersion.isBlank()) builder.addField(fieldVersion, version, false);
-        if(!fieldPlayerCount.isBlank()) builder.addField(fieldPlayerCount, "" + playerCount, false);
-        if(!message.isBlank() && !fieldMessage.isBlank()) builder.addField(fieldMessage, message, false);
+        if(StringUtils.isNotBlank(port) && StringUtils.isNotBlank(fieldPort)) builder.addField(fieldPort, port, false);
+        if(StringUtils.isNotBlank(version) && StringUtils.isNotBlank(fieldVersion)) builder.addField(fieldVersion, version, false);
+        if(StringUtils.isNotBlank(fieldPlayerCount)) builder.addField(fieldPlayerCount, "" + playerCount, false);
+        if(StringUtils.isNotBlank(message) && StringUtils.isNotBlank(fieldMessage)) builder.addField(fieldMessage, message, false);
 
         return builder.build();
     }
@@ -216,11 +216,11 @@ public class DiscordBot {
             builder.setColor(Color.decode(color));
         } catch (NumberFormatException ignored) {}
 
-        if(!description.isBlank()) {
+        if(StringUtils.isNotBlank(description)) {
             builder.setDescription(description);
         }
 
-        if(!footerText.isBlank()) {
+        if(StringUtils.isNotBlank(footerText)) {
             if(foundFooterIcon) {
                 builder.setFooter(footerText, footerIcon);
             } else {
@@ -233,13 +233,13 @@ public class DiscordBot {
         }
 
         if(foundTitleIcon) {
-            if(titleText.isBlank()) {
+            if(StringUtils.isBlank(titleText)) {
                 builder.setTitle("Example", titleURL);
             } else {
                 builder.setTitle(titleText, titleURL);
             }
         } else {
-            if(titleText.isBlank()) {
+            if(StringUtils.isBlank(titleText)) {
                 builder.setTitle("Example");
             } else {
                 builder.setTitle(titleText);
@@ -248,10 +248,10 @@ public class DiscordBot {
 
         if(foundThumbnail) builder.setThumbnail(thumbnail);
 
-        if(!ip.isBlank() && !fieldIP.isBlank()) builder.addField(fieldIP, ip, false);
-        if(!port.isBlank() && !fieldPort.isBlank()) builder.addField(fieldPort, port, false);
-        if(!version.isBlank() && !fieldVersion.isBlank()) builder.addField(fieldVersion, version, false);
-        if(!message.isBlank() && !fieldMessage.isBlank()) builder.addField(fieldMessage, message, false);
+        if(StringUtils.isNotBlank(ip) && StringUtils.isNotBlank(fieldIP)) builder.addField(fieldIP, ip, false);
+        if(StringUtils.isNotBlank(port) && StringUtils.isNotBlank(fieldPort)) builder.addField(fieldPort, port, false);
+        if(StringUtils.isNotBlank(version) && StringUtils.isNotBlank(fieldVersion)) builder.addField(fieldVersion, version, false);
+        if(StringUtils.isNotBlank(message) && StringUtils.isNotBlank(fieldMessage)) builder.addField(fieldMessage, message, false);
 
         return builder.build();
     }
