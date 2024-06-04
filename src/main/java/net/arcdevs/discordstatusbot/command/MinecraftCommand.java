@@ -11,7 +11,7 @@ import revxrsal.commands.exception.CommandErrorException;
 
 import java.io.IOException;
 
-@Command("ssb")
+@Command({"dsb", "discordstatusbot"})
 public class MinecraftCommand {
     @NotNull
     private final MainPlugin plugin;
@@ -21,13 +21,13 @@ public class MinecraftCommand {
     }
 
     @DefaultFor("~")
-    @CommandPermission("ssb.help")
+    @CommandPermission("dsb.help")
     public void defaultCommand(CommandSender sender, CommandHelp<String> entries, @Named("page") @Range(min = 1, max = 1) @Default("1") int page) {
         this.helpCommand(sender, entries, page);
     }
 
     @Subcommand("help")
-    @CommandPermission("ssb.help")
+    @CommandPermission("dsb.help")
     @Description("Sends this help message.")
     public void helpCommand(CommandSender sender, CommandHelp<String> entries, @Named("page") @Range(min = 1, max = 1) @Default("1") int page) {
         final int pageSize = 8;
@@ -43,7 +43,7 @@ public class MinecraftCommand {
     }
 
     @Subcommand("reload")
-    @CommandPermission("ssb.reload")
+    @CommandPermission("dsb.reload")
     @Description("Reloads the config files.")
     public String reloadCommand() throws CommandErrorException {
         try {

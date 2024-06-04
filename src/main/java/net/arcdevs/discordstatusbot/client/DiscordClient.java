@@ -72,7 +72,10 @@ public class DiscordClient {
     }
 
     public void reload() {
-        if(!this.isConnected()) return;
+        if(this.getClient() == null) {
+            this.load();
+            return;
+        } else if(!this.isConnected()) return;
 
         this.setReloaded(true);
         this.runTask();
