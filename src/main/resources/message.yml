@@ -1,0 +1,63 @@
+##################################################################
+########################### VERSION ##############################
+##################################################################
+# DO NOT EDIT
+config-version: 1
+
+##################################################################
+########################### MESSAGE ##############################
+##################################################################
+online:
+  author:
+    name: 'MysticLegends'
+    url: 'https://github.com/AidenCooper'
+    icon: 'https://i.ibb.co/kK1xNgt/ml-icon.png'
+  color: '#EAA845'
+  description: '➡ ONLINE'
+  fields:
+    - name: 'IP Address'
+      value: 'mc.mystic-legends.net'
+      inline: false
+    - name: 'Version'
+      value: '1.20.4+'
+      inline: false
+    - name: 'Player Count'
+      value: '%server_online%' # Placeholder API supported.
+      inline: false
+    - name: 'Message'
+      value: 'Whitelisted ➡ TBD'
+      inline: false
+  footer:
+    text: ''
+    icon: ''
+    show-timestamp: false
+  title:
+    text: 'Server Status' # REQUIRED
+    url: ''
+  thumbnail: 'https://i.ibb.co/s3YqgcN/ml-transparent-icon.png'
+
+offline:
+  author:
+    name: 'Mystic Legends'
+    url: 'https://github.com/AidenCooper'
+    icon: 'https://i.ibb.co/kK1xNgt/ml-icon.png'
+  color: '#69110D'
+  description: '➡ OFFLINE'
+  fields:
+    - name: 'IP Address'
+      value: 'mc.mystic-legends.net'
+      inline: false
+    - name: 'Version'
+      value: '1.20.4+'
+      inline: false
+    - name: 'Message'
+      value: 'Whitelisted ➡ TBD'
+      inline: false
+  footer:
+    text: ''
+    icon: ''
+    show-timestamp: false
+  title:
+    text: 'Server Status' # REQUIRED
+    url: ''
+  thumbnail: 'https://i.ibb.co/w68Ffp0/server-icon-icon.png'

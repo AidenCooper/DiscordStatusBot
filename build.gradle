@@ -1,64 +1,59 @@
 plugins {
-    id 'java'
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "java"
+    id "net.minecrell.plugin-yml.bukkit" version "0.6.0"
 }
 
-group = 'net.arcdevs'
-version = '1.1'
+group = "net.arcdevs.discordstatusbot"
+version = "2.0"
+description = "A lightweight minecraft plugin to showcase the status of your server with a single discord message."
 
 repositories {
-    mavenCentral()
-    maven {
-        name = "spigotmc-repo"
-        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
-    }
-    maven {
-        name = "sonatype"
-        url = "https://oss.sonatype.org/content/groups/public/"
-    }
+    mavenCentral() // Apache, BoostedYAML, JDA
+
+    maven{ url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" } // Spigot
+    maven{ url "https://jitpack.io" } // Lamp
+    maven{ url "https://repo.extendedclip.com/content/repositories/placeholderapi/" } // PlaceholderAPI
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT"
+    compileOnly "me.clip:placeholderapi:2.11.6"
+    compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
 
-    implementation("dev.dejvokep:boosted-yaml:1.3.5")
+    implementation "com.github.Revxrsal.Lamp:common:3.2.1"
+    implementation "com.github.Revxrsal.Lamp:bukkit:3.2.1"
+    implementation "dev.dejvokep:boosted-yaml:1.3.5"
     implementation("net.dv8tion:JDA:5.0.0-beta.24") {
-        exclude module: 'opus-java'
+        exclude module: "opus-java"
     }
-    implementation 'org.apache.commons:commons-lang3:3.14.0'
-    implementation('org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1')
+    implementation "org.apache.commons:commons-lang3:3.14.0"
+    implementation "org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1"
 }
 
-def targetJavaVersion = 8
+bukkit {
+    name = rootProject.name
+    version = project.version
+    description = project.description
+
+    main = project.group + ".MainPlugin"
+    apiVersion = "1.13"
+
+    softDepend = ["PlaceholderAPI"]
+}
+
 java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-}
-
-tasks.shadowJar {
-    manifest {
-        archiveFileName.set("${project.name}-${project.version}.jar")
-    }
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-    options.incremental = true
-
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        options.release.set(targetJavaVersion)
-    }
+    options.encoding = "UTF-8"
 }
 
-processResources {
-    def props = [version: version]
-    inputs.properties props
-    filteringCharset 'UTF-8'
-    filesMatching('plugin.yml') {
-        expand props
-    }
+tasks.shadowJar {
+    minimize()
+
+    archiveFileName.set("${project.name}-${project.version}.jar")
 }
+
+compileJava.dependsOn clean
+build.dependsOn shadowJar
