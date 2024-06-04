@@ -65,10 +65,11 @@ public class DiscordClient {
 
         try {
             this.getClient().shutdown();
-            if (!this.getClient().awaitShutdown(Duration.ofSeconds(5))) {
+            if (!this.getClient().awaitShutdown(Duration.ofSeconds(10))) {
                 this.getClient().shutdownNow();
+                this.getClient().awaitShutdown();
             }
-        } catch (InterruptedException | NullPointerException ignored) {}
+        } catch (InterruptedException | NullPointerException | IllegalStateException ignored) {}
     }
 
     public void reload() {
