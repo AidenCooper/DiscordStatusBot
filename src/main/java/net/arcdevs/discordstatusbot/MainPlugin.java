@@ -13,6 +13,8 @@ import net.dv8tion.jda.internal.utils.JDALogger;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 import revxrsal.commands.command.CommandCategory;
 import revxrsal.commands.command.ExecutableCommand;
@@ -24,10 +26,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public final class MainPlugin extends JavaPlugin {
+    public static final Logger LOGGER = LoggerFactory.getLogger(MainPlugin.class);
+
     public static final String NAME = "DiscordStatusBot";
     public static final int RESOURCE_ID = 116918;
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&7[&bSSB&7]&r ");
-    public static final String VERSION = "2.0";
 
     private YamlDocument clientConfig;
     private BukkitCommandHandler commandHandler;
