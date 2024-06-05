@@ -14,6 +14,7 @@ public class DiscordListener extends ListenerAdapter implements Listener {
     @NotNull private final JavaPlugin plugin;
 
     private boolean loaded = false;
+    private boolean firstTimeLoaded = true;
 
     public DiscordListener(@NotNull final DiscordClient client, @NotNull final JavaPlugin plugin) {
         this.client = client;
@@ -23,7 +24,11 @@ public class DiscordListener extends ListenerAdapter implements Listener {
     @Override
     public void onStatusChange(@NotNull final StatusChangeEvent event) {
         if(event.getNewStatus() == JDA.Status.CONNECTED && this.loaded) {
-            this.plugin.getLogger().info("Client loaded.");
+            if(this.firstTimeLoaded) {
+                this.firstTimeLoaded = false;
+                this.plugin.getLogger().info("Client loaded.");
+            }
+
             this.client.reload();
         }
     }

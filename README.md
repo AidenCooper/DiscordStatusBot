@@ -10,10 +10,7 @@ DSB allows you to showcase your minecraft server to your discord server in a hig
 * Lightweight and optimised.
 * Useful error messages and error handling.
 * Open source.
-
-## Commands/Permissions
-* /dsb help [page] -> dsb.help
-* /dsb reload -> dsb.reload
+* Multi-versioned.
 
 ## Setup discord bot
 1. Go to https://discord.com/developers/applications.
@@ -40,4 +37,4 @@ DSB allows you to showcase your minecraft server to your discord server in a hig
 For any bug reports or issues please submit them [here](https://github.com/AidenCooper/DiscordStatusBot/issues).
 
 ## Download
-https://www.spigotmc.org/resources/discord-server-status-updater-1-7-1-20.116918/
+https://www.spigotmc.org/resources/discord-status-bot-1-7-1-20.116918/

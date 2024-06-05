@@ -32,7 +32,7 @@ online:
     icon: ''
     show-timestamp: false
   title:
-    text: 'Server Status' # REQUIRED
+    text: 'Server Status'
     url: ''
   thumbnail: 'https://i.ibb.co/s3YqgcN/ml-transparent-icon.png'
 
@@ -58,6 +58,6 @@ offline:
     icon: ''
     show-timestamp: false
   title:
-    text: 'Server Status' # REQUIRED
+    text: 'Server Status'
     url: ''
   thumbnail: 'https://i.ibb.co/w68Ffp0/server-icon-icon.png'
