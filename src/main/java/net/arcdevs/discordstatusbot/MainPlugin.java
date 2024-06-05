@@ -30,7 +30,7 @@ public final class MainPlugin extends JavaPlugin {
 
     public static final String NAME = "DiscordStatusBot";
     public static final int RESOURCE_ID = 116918;
-    public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&7[&bSSB&7]&r ");
+    public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&7[&bDSB&7]&r ");
 
     private YamlDocument clientConfig;
     private BukkitCommandHandler commandHandler;

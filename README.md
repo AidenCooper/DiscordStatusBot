@@ -1,8 +1,43 @@
-# Server Status Bot (SSB)
-SSB is a discord bot running as a spigot plugin that showcases your minecraft server's status via a very customizable embed message.
+# Discord Status Bot
+DSB allows you to showcase your minecraft server to your discord server in a highly configurable embed message with PlaceholderAPI support.
 
-More information is posted here: 
+## Images
+
+
+## Features
+* PlaceholderAPI support.
+* Highly customizable discord message.
+* Lightweight and optimised.
+* Useful error messages and error handling.
+* Open source.
+
+## Commands/Permissions
+* /dsb help [page] -> dsb.help
+* /dsb reload -> dsb.reload
+
+## Setup discord bot
+1. Go to https://discord.com/developers/applications.
+2. Click new application in the top right.
+3. Enter the default name of your discord bot.
+4. After pressing create, click the Bot section on the left tab.
+5. Press reset token and copy it for later.
+6. Click the Installation section on the left tab.
+7. Install link -> Discord Provided Link.
+8. Guild Install -> add "bot".
+9. Permissions -> add "Embed links", "Read Messages/View Channels", and "Send Messages".
+10. Copy the link and enter it in your web browser.
+
+## Setup plugin
+1. Stop your minecraft server.
+2. Put jar file in the plugins folder of your server.
+3. Start your server.
+4. Open the client.yml file in /plugins/DiscordStatusBot/.
+5. Enter your discord bot token and the channel ID you want the message to send to.
+6. Save and close then open the message.yml and edit to your desire.
+7. Reload the plugin using /dsb reload.
+
+## Issues
+For any bug reports or issues please submit them [here](https://github.com/AidenCooper/DiscordStatusBot/issues).
+
+## Download
 https://www.spigotmc.org/resources/discord-server-status-updater-1-7-1-20.116918/
-
-
-

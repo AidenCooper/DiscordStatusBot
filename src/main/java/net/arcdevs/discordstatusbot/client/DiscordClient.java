@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -54,7 +55,9 @@ public class DiscordClient {
             return;
         }
 
-        this.client.addEventListener(new DiscordListener(this, this.plugin));
+        DiscordListener listener = new DiscordListener(this, this.plugin);
+        this.client.addEventListener(listener);
+        this.plugin.getServer().getPluginManager().registerEvents(listener, this.plugin);
     }
 
     public void unload() {
@@ -199,20 +202,31 @@ public class DiscordClient {
         if(StringUtils.isBlank(messageID)) {
             this.sendMessage(channel, embed, status);
         } else {
-            channel.editMessageEmbedsById(messageID, embed).queue(null, (exception) -> {
-                this.sendMessage(channel, embed, status);
-            });
+            try {
+                channel.editMessageEmbedsById(messageID, embed).queue(null, (exception) -> {
+                    this.sendMessage(channel, embed, status);
+                });
+            } catch (InsufficientPermissionException exception) {
+                this.plugin.getLogger().severe(String.format("Lacking \"%s\" permission.", exception.getPermission().getName()));
+            }
         }
     }
 
     private void sendMessage(@NotNull final TextChannel channel, @NotNull final MessageEmbed embed, @NotNull final ServerStatus status) {
         if(status == ServerStatus.ONLINE) {
-            channel.sendMessageEmbeds(embed).queue((message) -> {
-                this.plugin.getDataConfig().set("message-id", message.getId());
+            try {
+                channel.sendMessageEmbeds(embed).queue((message) -> {
+                    this.plugin.getDataConfig().set("message-id", message.getId());
 
-                try { this.plugin.getDataConfig().save(); }
-                catch (IOException exception) { this.plugin.getLogger().severe("Could not save message-id to data.yml"); }
-            });
+                    try {
+                        this.plugin.getDataConfig().save();
+                    } catch (IOException exception) {
+                        this.plugin.getLogger().severe("Could not save message-id to data.yml");
+                    }
+                });
+            } catch (InsufficientPermissionException exception) {
+                this.plugin.getLogger().severe(String.format("Lacking \"%s\" permission.", exception.getPermission().getName()));
+            }
         } else {
             this.plugin.getLogger().warning("Could not find the created message to modify. Sending new message on startup.");
         }
