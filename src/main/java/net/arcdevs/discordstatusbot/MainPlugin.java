@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public final class MainPlugin extends JavaPlugin {
-    public static final Logger LOGGER = LoggerFactory.getLogger(MainPlugin.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainPlugin.class);
 
     public static final String NAME = "DiscordStatusBot";
     public static final int RESOURCE_ID = 116918;

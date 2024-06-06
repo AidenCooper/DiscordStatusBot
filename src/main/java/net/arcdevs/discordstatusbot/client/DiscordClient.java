@@ -55,9 +55,8 @@ public class DiscordClient {
             return;
         }
 
-        DiscordListener listener = new DiscordListener(this, this.plugin);
-        this.client.addEventListener(listener);
-        this.plugin.getServer().getPluginManager().registerEvents(listener, this.plugin);
+        if(this.plugin.getDependencyChecker().isEnabled(DependencyType.PLACEHOLDERAPI)) this.plugin.getServer().getPluginManager().registerEvents(new MinecraftListener(this), this.plugin);
+        this.client.addEventListener(new DiscordListener(this, this.plugin));
     }
 
     public void unload() {

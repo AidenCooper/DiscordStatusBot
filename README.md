@@ -2,7 +2,9 @@
 DSB allows you to showcase your minecraft server to your discord server in a highly configurable embed message with PlaceholderAPI support.
 
 ## Images
-
+![](https://i.ibb.co/jT3xtrv/Screenshot-2024-06-05-194137.png)
+![](https://i.ibb.co/5rGR06p/Screenshot-2024-06-05-194712.png)
+![](https://i.ibb.co/LY86YyJ/2024-06-05-19-38-26.png)
 
 ## Features
 * PlaceholderAPI support.
