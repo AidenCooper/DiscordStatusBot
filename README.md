@@ -19,7 +19,7 @@ DSB allows you to showcase your minecraft server to your discord server in a hig
 2. Click new application in the top right.
 3. Enter the default name of your discord bot.
 4. After pressing create, click the Bot section on the left tab.
-5. Press reset token and copy it for later.
+5. Press "reset token" and copy it for later.
 6. Click the Installation section on the left tab.
 7. Install link -> Discord Provided Link.
 8. Guild Install -> add "bot".
@@ -27,12 +27,12 @@ DSB allows you to showcase your minecraft server to your discord server in a hig
 10. Copy the link and enter it in your web browser.
 
 ## Setup plugin
-1. Stop your minecraft server.
-2. Put jar file in the plugins folder of your server.
+1. Stop your Minecraft server.
+2. Put the jar file in the plugins folder of your server.
 3. Start your server.
 4. Open the client.yml file in /plugins/DiscordStatusBot/.
 5. Enter your discord bot token and the channel ID you want the message to send to.
-6. Save and close then open the message.yml and edit to your desire.
+6. Save and close then open the message.yml file and edit to your desire.
 7. Reload the plugin using /dsb reload.
 
 ## Issues
