@@ -1,6 +1,7 @@
 package net.arcdevs.discordstatusbot;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.libs.org.snakeyaml.engine.v2.exceptions.ParserException;
 import net.arcdevs.discordstatusbot.client.DiscordClient;
 import net.arcdevs.discordstatusbot.command.CommandHelp;
 import net.arcdevs.discordstatusbot.command.MinecraftCommand;
@@ -22,7 +23,6 @@ import revxrsal.commands.exception.NumberNotInRangeException;
 import revxrsal.commands.help.CommandHelpWriter;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
 public final class MainPlugin extends JavaPlugin {
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&7[&bDSB&7]&r ");
@@ -45,8 +45,8 @@ public final class MainPlugin extends JavaPlugin {
             this.clientConfig = new ClientConfig(this, "client.yml").loadConfig();
             this.dataConfig = new DataConfig(this, "data.yml").loadConfig();
             this.messageConfig = new MessageConfig(this, "message.yml").loadConfig();
-        } catch (NullPointerException | IOException exception) {
-            this.getLogger().log(Level.SEVERE, "Error loading config files.");
+        } catch (NullPointerException | IOException | ParserException exception) {
+            this.getLogger().severe("Error loading config files.\n" + exception.getLocalizedMessage());
 
             this.getPluginLoader().disablePlugin(this);
             return;
@@ -122,10 +122,10 @@ public final class MainPlugin extends JavaPlugin {
                 this.getMessageConfig().reload();
                 this.getMessageConfig().save();
             }
-        } catch (IOException e) { this.getLogger().log(Level.WARNING, "Error saving config files."); }
+        } catch (IOException e) { this.getLogger().warning("Error saving config files."); }
 
         // Client
-        this.getDiscordClient().unload();
+        if(this.getDiscordClient() != null) this.getDiscordClient().unload();
     }
 
     public YamlDocument getClientConfig() {

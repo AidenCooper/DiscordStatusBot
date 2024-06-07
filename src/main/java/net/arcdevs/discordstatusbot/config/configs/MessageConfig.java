@@ -3,6 +3,7 @@ package net.arcdevs.discordstatusbot.config.configs;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
 import dev.dejvokep.boostedyaml.libs.org.snakeyaml.engine.v2.common.ScalarStyle;
+import dev.dejvokep.boostedyaml.libs.org.snakeyaml.engine.v2.exceptions.ParserException;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
@@ -22,7 +23,7 @@ public class MessageConfig extends Config {
 
     @NotNull
     @Override
-    public YamlDocument loadConfig() throws IOException {
+    public YamlDocument loadConfig() throws IOException, ParserException {
         return YamlDocument.create(
             new File(this.getPlugin().getDataFolder(), this.getName()),
             Objects.requireNonNull(this.getPlugin().getResource(this.getName())),

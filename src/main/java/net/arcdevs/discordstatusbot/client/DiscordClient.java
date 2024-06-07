@@ -3,6 +3,7 @@ package net.arcdevs.discordstatusbot.client;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.arcdevs.discordstatusbot.config.ColorSerializer;
 import net.arcdevs.discordstatusbot.config.FieldSerializer;
 import net.arcdevs.discordstatusbot.MainPlugin;
 import net.arcdevs.discordstatusbot.dependency.DependencyType;
@@ -17,8 +18,6 @@ import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,10 +25,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashSet;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -46,6 +44,7 @@ public class DiscordClient {
 
     private MessageEmbed lastSentEmbed = null;
     private int taskID = -1;
+    private boolean updatingMessage = false;
 
     private boolean firstLoad = true;
     private boolean reloaded = true;
@@ -88,7 +87,7 @@ public class DiscordClient {
         if(this.getClient() == null) {
             this.load();
             return;
-        } else if(!this.isConnected() || !MinecraftListener.EXPANSIONS_LOADED) return;
+        } else if(!this.isConnected() || (this.plugin.getDependencyChecker().isEnabled(DependencyType.PLACEHOLDERAPI) && !MinecraftListener.EXPANSIONS_LOADED)) return;
 
         if(this.isFirstLoad()) {
             this.setFirstLoad(false);
@@ -128,11 +127,9 @@ public class DiscordClient {
     public void runTask() {
         this.cancelTask();
 
-        BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
+        this.taskID = this.plugin.getServer().getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
             this.updateStatusMessage(ServerStatus.ONLINE);
-        }, 0L, 20L * this.plugin.getClientConfig().getInt("update-interval"));
-
-        this.taskID = task.getTaskId();
+        }, 0L, 20L * this.plugin.getClientConfig().getInt("update-interval")).getTaskId();
     }
 
     public void updateStatusMessage(@NotNull final ServerStatus status) {
@@ -154,14 +151,18 @@ public class DiscordClient {
 
         Route route;
         if(status == ServerStatus.ONLINE) route = Route.fromString("online");
-        else route = Route.fromString("offline");
+        else {
+            this.updatingMessage = false;
+            this.getClient().cancelRequests();
+            route = Route.fromString("offline");
+        }
 
         YamlDocument messageConfig = this.plugin.getMessageConfig();
 
         String authorName = messageConfig.getString(Route.addTo(route, "author").add("name"));
         String authorURL = messageConfig.getString(Route.addTo(route, "author").add("url"));
         String authorIcon = messageConfig.getString(Route.addTo(route, "author").add("icon"));
-        Color color = Color.decode(messageConfig.getString(Route.addTo(route, "color")));
+        Color color = ColorSerializer.getColor(messageConfig, Route.addTo(route, "color"));
         String description = messageConfig.getString(Route.addTo(route, "description"));
         List<MessageEmbed.Field> fields = FieldSerializer.getFields(messageConfig, Route.addTo(route, "fields"));
         String footerText = messageConfig.getString(Route.addTo(route, "footer").add("text"));
@@ -196,7 +197,7 @@ public class DiscordClient {
 
         if(this.isValidURL(thumbnail)) builder.setThumbnail(thumbnail);
 
-        if(showTimestamp) builder.setTimestamp(Instant.now());
+        if(showTimestamp) builder.setTimestamp(Instant.now().truncatedTo(ChronoUnit.MINUTES));
 
         for(MessageEmbed.Field field : fields) builder.addField(field);
 
@@ -221,24 +222,34 @@ public class DiscordClient {
     }
 
     private void editMessage(@NotNull final TextChannel channel, @NotNull final MessageEmbed embed, @NotNull final ServerStatus status) {
+        if(this.updatingMessage) return;
+
         String messageID = this.plugin.getDataConfig().getString("message-id");
 
         if(StringUtils.isBlank(messageID)) {
             this.sendMessage(channel, embed, status);
         } else {
             try {
-                channel.editMessageEmbedsById(messageID, embed).queue(null, (exception) -> {
+                this.updatingMessage = true;
+                channel.editMessageEmbedsById(messageID, embed).queue((message -> {
+                    this.updatingMessage = false;
+                }), (exception) -> {
+                    this.updatingMessage = false;
                     this.sendMessage(channel, embed, status);
                 });
             } catch (InsufficientPermissionException exception) {
                 this.plugin.getLogger().severe(String.format("Lacking \"%s\" permission.", exception.getPermission().getName()));
+                this.updatingMessage = false;
             }
         }
     }
 
     private void sendMessage(@NotNull final TextChannel channel, @NotNull final MessageEmbed embed, @NotNull final ServerStatus status) {
+        if(this.updatingMessage) return;
+
         if(status == ServerStatus.ONLINE) {
             try {
+                this.updatingMessage = true;
                 channel.sendMessageEmbeds(embed).queue((message) -> {
                     this.plugin.getDataConfig().set("message-id", message.getId());
 
@@ -247,9 +258,14 @@ public class DiscordClient {
                     } catch (IOException exception) {
                         this.plugin.getLogger().severe("Could not save message-id to data.yml");
                     }
+
+                    this.updatingMessage = false;
+                }, (exception) -> {
+                    this.updatingMessage = false;
                 });
             } catch (InsufficientPermissionException exception) {
                 this.plugin.getLogger().severe(String.format("Lacking \"%s\" permission.", exception.getPermission().getName()));
+                this.updatingMessage = false;
             }
         } else {
             this.plugin.getLogger().warning("Could not find the created message to modify. Sending new message on startup.");

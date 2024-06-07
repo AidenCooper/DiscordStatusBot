@@ -1,5 +1,6 @@
 package net.arcdevs.discordstatusbot.command;
 
+import dev.dejvokep.boostedyaml.libs.org.snakeyaml.engine.v2.exceptions.ParserException;
 import net.arcdevs.discordstatusbot.MainPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -50,10 +51,12 @@ public class MinecraftCommand {
             this.plugin.getClientConfig().reload();
             this.plugin.getDataConfig().reload();
             this.plugin.getMessageConfig().reload();
-        } catch (IOException exception) { return "&cReload failed."; }
+        } catch (NullPointerException | IOException | ParserException exception) {
+            this.plugin.getLogger().severe("Error loading config files.\n" + exception.getLocalizedMessage());
+            return "&cReload failed.";
+        }
 
         this.plugin.getDiscordClient().reload();
-
         return "&aReload complete.";
     }
 }
