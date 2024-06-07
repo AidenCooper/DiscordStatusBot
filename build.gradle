@@ -1,11 +1,11 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "io.github.goooler.shadow" version "8.1.7"
     id "java"
     id "net.minecrell.plugin-yml.bukkit" version "0.6.0"
 }
 
 group = "net.arcdevs.discordstatusbot"
-version = "2.0"
+version = "2.1"
 description = "A lightweight minecraft plugin to showcase the status of your server with a single discord message."
 
 repositories {
@@ -27,8 +27,12 @@ dependencies {
         exclude module: "opus-java"
     }
     implementation "org.apache.commons:commons-lang3:3.14.0"
+    implementation "org.bstats:bstats-bukkit:3.0.2"
+    implementation "org.slf4j:slf4j-nop:2.0.13"
+}
 
-    implementation "ch.qos.logback:logback-classic:1.5.6"
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
 }
 
 bukkit {
@@ -42,16 +46,31 @@ bukkit {
     softDepend = ["PlaceholderAPI"]
 }
 
-java {
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-}
-
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
 }
 
 tasks.shadowJar {
-    minimize()
+    minimize {
+        exclude(dependency("org.slf4j:slf4j-nop:2.0.13"))
+    }
+
+    String prefix = project.group.toString() + ".libs."
+    relocate "com.fasterxml", prefix + "com.fasterxml"
+    relocate "com.iwebpp", prefix + "com.iwebpp"
+    relocate "com.neovisionaries", prefix + "com.neovisionaries"
+    relocate "dev.dejvokep", prefix + "dev.dejvokep"
+    relocate "gnu.trove", prefix + "gnu.trove"
+    relocate "kotlin", prefix + "kotlin"
+    relocate "net.bytebuddy", prefix + "net.bytebuddy"
+    relocate "net.dv8tion", prefix + "net.dv8tion"
+    relocate "okhttp3", prefix + "okhttp3"
+    relocate "okio", prefix + "okio"
+    relocate "org.apache", prefix + "org.apache"
+    relocate "org.bstats", prefix + "org.bstats"
+    relocate "org.intellij", prefix + "org.intellij"
+    relocate "org.jetbrains", prefix + "org.jetbrains"
+    relocate "revxrsal", prefix + "revxrsal"
 
     archiveFileName.set("${project.name}-${project.version}.jar")
 }

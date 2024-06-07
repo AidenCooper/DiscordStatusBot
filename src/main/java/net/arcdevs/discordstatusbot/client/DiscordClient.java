@@ -9,9 +9,11 @@ import net.arcdevs.discordstatusbot.dependency.DependencyType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import org.apache.commons.lang3.StringUtils;
@@ -24,12 +26,19 @@ import java.awt.*;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class DiscordClient {
+    private static final Set<Permission> PERMISSIONS = new HashSet<Permission>(){{
+        add(Permission.MESSAGE_EMBED_LINKS);
+        add(Permission.MESSAGE_SEND);
+        add(Permission.VIEW_CHANNEL);
+    }};
     private final Pattern URL_PATTERN = Pattern.compile("\\s*(https?|attachment)://\\S+\\s*", Pattern.CASE_INSENSITIVE);
 
     @Nullable private JDA client;
@@ -38,6 +47,7 @@ public class DiscordClient {
     private MessageEmbed lastSentEmbed = null;
     private int taskID = -1;
 
+    private boolean firstLoad = true;
     private boolean reloaded = true;
 
     public DiscordClient(@NotNull MainPlugin plugin) {
@@ -56,7 +66,7 @@ public class DiscordClient {
         }
 
         if(this.plugin.getDependencyChecker().isEnabled(DependencyType.PLACEHOLDERAPI)) this.plugin.getServer().getPluginManager().registerEvents(new MinecraftListener(this), this.plugin);
-        this.client.addEventListener(new DiscordListener(this, this.plugin));
+        this.client.addEventListener(new DiscordListener(this));
     }
 
     public void unload() {
@@ -78,7 +88,12 @@ public class DiscordClient {
         if(this.getClient() == null) {
             this.load();
             return;
-        } else if(!this.isConnected()) return;
+        } else if(!this.isConnected() || !MinecraftListener.EXPANSIONS_LOADED) return;
+
+        if(this.isFirstLoad()) {
+            this.setFirstLoad(false);
+            this.plugin.getLogger().info("Client loaded.");
+        }
 
         this.setReloaded(true);
         this.runTask();
@@ -92,6 +107,14 @@ public class DiscordClient {
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isConnected() {
         return this.getClient() != null && this.getClient().getStatus() == JDA.Status.CONNECTED;
+    }
+
+    private boolean isFirstLoad() {
+        return this.firstLoad;
+    }
+
+    private void setFirstLoad(final boolean firstLoad) {
+        this.firstLoad = firstLoad;
     }
 
     private boolean isReloaded() {
@@ -126,6 +149,8 @@ public class DiscordClient {
             this.setReloaded(false);
             return;
         }
+
+        if(!this.checkPermissions(channel)) return;
 
         Route route;
         if(status == ServerStatus.ONLINE) route = Route.fromString("online");
@@ -229,5 +254,21 @@ public class DiscordClient {
         } else {
             this.plugin.getLogger().warning("Could not find the created message to modify. Sending new message on startup.");
         }
+    }
+
+    private boolean checkPermissions(@NotNull final GuildChannel channel) {
+        Set<Permission> needed = new HashSet<>();
+        for(Permission permission : DiscordClient.PERMISSIONS) {
+            if(!channel.getGuild().getSelfMember().hasPermission(channel, permission)) {
+                needed.add(permission);
+            }
+        }
+        if(!needed.isEmpty()) {
+            if(this.isReloaded()) this.plugin.getLogger().severe(String.format("Lacking \"%s\" permission(s).", needed));
+            this.setReloaded(false);
+            return false;
+        }
+
+        return true;
     }
 }
