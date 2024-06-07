@@ -8,13 +8,15 @@ import org.jetbrains.annotations.NotNull;
 public class MinecraftListener implements Listener {
     @NotNull private final DiscordClient client;
 
+    public static boolean EXPANSIONS_LOADED = false;
+
     public MinecraftListener(@NotNull final DiscordClient client) {
         this.client = client;
     }
 
     @EventHandler
     public void onExpansionLoaded(ExpansionsLoadedEvent event) {
-        DiscordListener.LOADED = true;
-        if(this.client.isConnected()) this.client.updateStatusMessage(ServerStatus.ONLINE);
+        if(!MinecraftListener.EXPANSIONS_LOADED) MinecraftListener.EXPANSIONS_LOADED = true;
+        this.client.reload();
     }
 }

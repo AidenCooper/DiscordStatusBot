@@ -11,10 +11,9 @@ import net.arcdevs.discordstatusbot.dependency.DependencyChecker;
 import net.arcdevs.discordstatusbot.updater.UpdateChecker;
 import net.dv8tion.jda.internal.utils.JDALogger;
 import org.apache.commons.lang3.StringUtils;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 import revxrsal.commands.command.CommandCategory;
 import revxrsal.commands.command.ExecutableCommand;
@@ -26,11 +25,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public final class MainPlugin extends JavaPlugin {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainPlugin.class);
-
-    public static final String NAME = "DiscordStatusBot";
-    public static final int RESOURCE_ID = 116918;
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&7[&bDSB&7]&r ");
+    public static final int RESOURCE_ID = 116918;
+    public static final int STATS_ID = 22159;
 
     private YamlDocument clientConfig;
     private BukkitCommandHandler commandHandler;
@@ -38,20 +35,11 @@ public final class MainPlugin extends JavaPlugin {
     private DependencyChecker dependencyChecker;
     private DiscordClient discordClient;
     private YamlDocument messageConfig;
+    private Metrics metrics;
     private UpdateChecker updateChecker;
-
-    private boolean placeholdersEnabled = false;
 
     @Override
     public void onEnable() {
-        // Update checker
-        this.updateChecker = new UpdateChecker(this, MainPlugin.RESOURCE_ID);
-        this.updateChecker.checkForUpdates();
-
-        // Dependencies
-        this.dependencyChecker = new DependencyChecker(this);
-        this.dependencyChecker.registerListener();
-
         // Configs
         try {
             this.clientConfig = new ClientConfig(this, "client.yml").loadConfig();
@@ -63,6 +51,17 @@ public final class MainPlugin extends JavaPlugin {
             this.getPluginLoader().disablePlugin(this);
             return;
         }
+
+        // Metrics
+        this.metrics = new Metrics(this, MainPlugin.STATS_ID);
+
+        // Update checker
+        this.updateChecker = new UpdateChecker(this, MainPlugin.RESOURCE_ID);
+        this.updateChecker.checkForUpdates();
+
+        // Dependencies
+        this.dependencyChecker = new DependencyChecker(this);
+        this.dependencyChecker.registerListener();
 
         // Client
         JDALogger.setFallbackLoggerEnabled(false);
@@ -155,15 +154,11 @@ public final class MainPlugin extends JavaPlugin {
         return this.messageConfig;
     }
 
+    public Metrics getMetrics() {
+        return this.metrics;
+    }
+
     public UpdateChecker getUpdateChecker() {
         return this.updateChecker;
-    }
-
-    public boolean isPlaceholdersEnabled() {
-        return this.placeholdersEnabled;
-    }
-
-    public void setPlaceholdersEnabled(final boolean placeholdersEnabled) {
-        this.placeholdersEnabled = placeholdersEnabled;
     }
 }
