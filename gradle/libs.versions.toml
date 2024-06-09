@@ -1,0 +1,30 @@
+[versions]
+bstats = "3.0.2"
+lamp = "3.2.1"
+plugin-yml = "0.6.0"
+
+[plugins]
+plugin-yml-bukkit = { id = "net.minecrell.plugin-yml.bukkit", version.ref = "plugin-yml" }
+plugin-yml-bungee = { id = "net.minecrell.plugin-yml.bungee", version.ref = "plugin-yml" }
+
+shadow = "io.github.goooler.shadow:8.1.7"
+
+[libraries]
+bstats-bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
+bstats-bungee = { module = "org.bstats:bstats-bungeecord", version.ref = "bstats" }
+bstats-velocity = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
+lamp-bukkit = { module = "com.github.Revxrsal.Lamp:bukkit", version.ref = "lamp"}
+lamp-bungee = { module = "com.github.Revxrsal.Lamp:bungee", version.ref = "lamp" }
+lamp-common = { module = "com.github.Revxrsal.Lamp:common", version.ref = "lamp"}
+lamp-velocity = { module = "com.github.Revxrsal.Lamp:velocity", version.ref = "lamp"}
+
+annotations = "org.jetbrains:annotations:24.1.0"
+jda = "net.dv8tion:JDA:5.0.0-beta.24"
+lombok = "org.projectlombok:lombok:1.18.32"
+placeholder-api = "me.clip:placeholderapi:2.11.6"
+placeholder-proxy = "net.william278:papiproxybridge:1.5"
+simple-yaml = "com.github.Carleslc.Simple-YAML:Simple-Yaml:1.8.4"
+
+bungee = "net.md-5:bungeecord-api:1.16-R0.5-SNAPSHOT"
+spigot = "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
+velocity = "com.velocitypowered:velocity-api:3.3.0-SNAPSHOT"
