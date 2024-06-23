@@ -1,0 +1,13 @@
+{
+  "id": "discordstatusbot",
+  "name": "Discord Status Bot",
+  "version": "$version",
+  "description": "$description",
+  "dependencies": [
+    {
+      "id": "papiproxybridge",
+      "optional": true
+    }
+  ],
+  "main": "$main"
+}

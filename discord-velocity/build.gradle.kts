@@ -1,10 +1,9 @@
 repositories {
     maven(url = "https://repo.papermc.io/repository/maven-public/") // Velocity
-    maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
+    maven(url = "https://repo.william278.net/releases/") // PAPIProxyBridge
 }
 
 dependencies {
-    implementation(project(":api"))
     implementation(project(":common"))
 
     compileOnly(rootProject.libs.velocity)
@@ -12,25 +11,26 @@ dependencies {
 
     implementation(rootProject.libs.bstats.velocity)
     implementation(rootProject.libs.lamp.velocity)
+    implementation(rootProject.libs.placeholder.proxy)
 }
 
-val templateSource = file("src/main/templates")
-val templateDest = layout.buildDirectory.dir("generated/sources/templates")
-val generateTemplates = tasks.register<Copy>("generateTemplates") {
-    val props = mapOf(
-        "version" to rootProject.version,
-        "description" to rootProject.description
-    )
+tasks {
+    processResources {
+        val props = mapOf(
+            "version" to rootProject.version.toString().split("-")[0],
+            "description" to rootProject.description,
+            "main" to rootProject.group.toString() + ".velocity.VelocityPlugin"
+        )
 
-    inputs.properties(props)
-    from(templateSource)
-    into(templateDest)
-    expand(props)
-}
-sourceSets {
-    main {
-        java {
-            srcDirs(generateTemplates.map { it.outputs })
+        inputs.properties(props)
+        filesMatching("velocity-plugin.json") {
+            expand(props)
+        }
+    }
+
+    shadowJar {
+        dependencies {
+            exclude(dependency(rootProject.libs.placeholder.proxy.get()))
         }
     }
 }

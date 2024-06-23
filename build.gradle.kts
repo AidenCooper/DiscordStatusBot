@@ -4,39 +4,27 @@ plugins {
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-
-        maven(url = "https://jitpack.io/") // Lamp, Simple-YAML
-        maven(url = "https://repo.william278.net/releases/") // PAPIProxyBridge
-    }
-
     apply(plugin = "java")
     apply(plugin = "io.github.goooler.shadow")
 
-    dependencies {
-        compileOnly(rootProject.libs.lamp.common)
+    repositories {
+        mavenCentral() // Annotations, Lombok
 
+        maven(url = "https://jitpack.io/") // Lamp
+        // maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") // libby
+    }
+
+    dependencies {
         compileOnly(rootProject.libs.lombok)
         annotationProcessor(rootProject.libs.lombok)
 
         compileOnly(rootProject.libs.annotations)
-        compileOnly(rootProject.libs.simple.yaml) {
-            exclude(group = "org.yaml")
-        }
+        compileOnly(rootProject.libs.lamp.common)
 
-        implementation(rootProject.libs.jda) {
-            exclude(module="opus-java")
-        }
-
-        implementation(rootProject.libs.placeholder.proxy)
+        implementation(rootProject.libs.boosted.yaml)
     }
 
     tasks {
-        build {
-            dependsOn(shadowJar)
-        }
-
         shadowJar {
             archiveFileName.set("${rootProject.name}-${project.name.replaceFirstChar { it.uppercase() }}-${rootProject.version}.jar")
 
@@ -46,14 +34,11 @@ allprojects {
             relocate("org.bstats", "$prefix.bstats")
             relocate("com.google.gson", "$prefix.gson")
             relocate("revxrsal", "$prefix.lamp")
-            relocate("com.simpleyaml", "$prefix.simpleyaml")
-            relocate("net.william278", "$prefix.papiproxybridge")
+            // relocate("com.alessiodp.libby", "$prefix.libby")
 
-             exclude("META-INF/*/**")
+            exclude("META-INF/*/**")
 
-            minimize {
-                exclude(project(":api"))
-            }
+            minimize()
         }
 
         compileJava {
@@ -71,6 +56,6 @@ allprojects {
 
 tasks {
     register("build-discord") {
-        dependsOn(listOf("api", "common", "bukkit", "bungee", "velocity").flatMap { listOf("$it:clean", "$it:shadowJar") })
+        dependsOn(listOf("common", "bukkit", "bungee", "velocity").flatMap { listOf("$it:clean", "$it:shadowJar") })
     }
 }

@@ -1,6 +1,7 @@
 [versions]
 bstats = "3.0.2"
 lamp = "3.2.1"
+libby = "2.0.0-SNAPSHOT"
 plugin-yml = "0.6.0"
 
 [plugins]
@@ -17,13 +18,17 @@ lamp-bukkit = { module = "com.github.Revxrsal.Lamp:bukkit", version.ref = "lamp"
 lamp-bungee = { module = "com.github.Revxrsal.Lamp:bungee", version.ref = "lamp" }
 lamp-common = { module = "com.github.Revxrsal.Lamp:common", version.ref = "lamp"}
 lamp-velocity = { module = "com.github.Revxrsal.Lamp:velocity", version.ref = "lamp"}
+libby-bukkit = { module = "com.alessiodp.libby:libby-bukkit", version.ref = "libby" }
+libby-bungee = { module = "com.alessiodp.libby:libby-bungee", version.ref = "libby" }
+libby-core = { module = "com.alessiodp.libby:libby-core", version.ref = "libby" }
+libby-velocity = { module = "com.alessiodp.libby:libby-velocity", version.ref = "libby" }
 
 annotations = "org.jetbrains:annotations:24.1.0"
+boosted-yaml = "dev.dejvokep:boosted-yaml:1.3.5"
 jda = "net.dv8tion:JDA:5.0.0-beta.24"
 lombok = "org.projectlombok:lombok:1.18.32"
 placeholder-api = "me.clip:placeholderapi:2.11.6"
-placeholder-proxy = "net.william278:papiproxybridge:1.5"
-simple-yaml = "com.github.Carleslc.Simple-YAML:Simple-Yaml:1.8.4"
+placeholder-proxy = "net.william278:papiproxybridge:1.6.1"
 
 bungee = "net.md-5:bungeecord-api:1.16-R0.5-SNAPSHOT"
 spigot = "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
