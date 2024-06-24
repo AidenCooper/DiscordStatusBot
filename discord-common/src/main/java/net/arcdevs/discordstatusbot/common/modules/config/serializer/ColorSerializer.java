@@ -1,4 +1,4 @@
-package net.arcdevs.discordstatusbot.common.config.serializer;
+package net.arcdevs.discordstatusbot.common.modules.config.serializer;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;

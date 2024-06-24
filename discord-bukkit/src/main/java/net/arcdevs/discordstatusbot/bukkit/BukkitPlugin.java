@@ -1,19 +1,19 @@
 package net.arcdevs.discordstatusbot.bukkit;
 
-import net.arcdevs.discordstatusbot.bukkit.boot.BukkitBootstrap;
+import net.arcdevs.discordstatusbot.bukkit.boot.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BukkitPlugin extends JavaPlugin {
-    private BukkitBootstrap bootstrap;
+    private Bukkit bukkit;
 
     @Override
     public void onEnable() {
-        this.bootstrap = new BukkitBootstrap(this);
-        this.bootstrap.startup();
+        this.bukkit = new Bukkit(this);
+        this.bukkit.enablePlugin();
     }
 
     @Override
     public void onDisable() {
-        this.bootstrap.shutdown();
+        this.bukkit.disablePlugin();
     }
 }

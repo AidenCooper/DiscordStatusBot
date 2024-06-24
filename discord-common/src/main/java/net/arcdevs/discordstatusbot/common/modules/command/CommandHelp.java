@@ -1,4 +1,4 @@
-package net.arcdevs.discordstatusbot.common.command;
+package net.arcdevs.discordstatusbot.common.modules.command;
 
 import org.jetbrains.annotations.Range;
 import revxrsal.commands.exception.InvalidHelpPageException;

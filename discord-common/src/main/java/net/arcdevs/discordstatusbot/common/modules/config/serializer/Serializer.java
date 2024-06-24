@@ -1,4 +1,4 @@
-package net.arcdevs.discordstatusbot.common.config.serializer;
+package net.arcdevs.discordstatusbot.common.modules.config.serializer;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.route.Route;
@@ -7,8 +7,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+@Getter
 public abstract class Serializer<T> {
-    @Getter private final T defaultValue;
+    private final T defaultValue;
 
     protected Serializer(T defaultValue) {
         this.defaultValue = defaultValue;

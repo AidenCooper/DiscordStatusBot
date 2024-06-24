@@ -1,7 +1,8 @@
 [versions]
+adventure-platform = "4.3.3"
 bstats = "3.0.2"
 lamp = "3.2.1"
-libby = "2.0.0-SNAPSHOT"
+# libby = "2.0.0-SNAPSHOT"
 plugin-yml = "0.6.0"
 
 [plugins]
@@ -11,6 +12,10 @@ plugin-yml-bungee = { id = "net.minecrell.plugin-yml.bungee", version.ref = "plu
 shadow = "io.github.goooler.shadow:8.1.7"
 
 [libraries]
+adventure-platform-api = { module = "net.kyori:adventure-platform-api", version.ref = "adventure-platform" }
+adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", version.ref = "adventure-platform" }
+adventure-platform-bungee = { module = "net.kyori:adventure-platform-bungee", version.ref = "adventure-platform" }
+adventure-platform-velocity = { module = "net.kyori:adventure-platform-velocity", version.ref = "adventure-platform" }
 bstats-bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
 bstats-bungee = { module = "org.bstats:bstats-bungeecord", version.ref = "bstats" }
 bstats-velocity = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
@@ -18,10 +23,10 @@ lamp-bukkit = { module = "com.github.Revxrsal.Lamp:bukkit", version.ref = "lamp"
 lamp-bungee = { module = "com.github.Revxrsal.Lamp:bungee", version.ref = "lamp" }
 lamp-common = { module = "com.github.Revxrsal.Lamp:common", version.ref = "lamp"}
 lamp-velocity = { module = "com.github.Revxrsal.Lamp:velocity", version.ref = "lamp"}
-libby-bukkit = { module = "com.alessiodp.libby:libby-bukkit", version.ref = "libby" }
-libby-bungee = { module = "com.alessiodp.libby:libby-bungee", version.ref = "libby" }
-libby-core = { module = "com.alessiodp.libby:libby-core", version.ref = "libby" }
-libby-velocity = { module = "com.alessiodp.libby:libby-velocity", version.ref = "libby" }
+# libby-bukkit = { module = "com.alessiodp.libby:libby-bukkit", version.ref = "libby" }
+# libby-bungee = { module = "com.alessiodp.libby:libby-bungee", version.ref = "libby" }
+# libby-core = { module = "com.alessiodp.libby:libby-core", version.ref = "libby" }
+# libby-velocity = { module = "com.alessiodp.libby:libby-velocity", version.ref = "libby" }
 
 annotations = "org.jetbrains:annotations:24.1.0"
 boosted-yaml = "dev.dejvokep:boosted-yaml:1.3.5"

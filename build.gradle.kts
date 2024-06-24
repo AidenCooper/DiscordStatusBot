@@ -42,7 +42,7 @@ allprojects {
         }
 
         compileJava {
-            options.compilerArgs.add("-Xlint:-options")
+            options.compilerArgs.addAll(listOf("-Xlint:-options", "-parameters"))
             options.encoding = "UTF-8"
         }
 

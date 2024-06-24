@@ -7,7 +7,7 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import lombok.Getter;
-import net.arcdevs.discordstatusbot.velocity.boot.VelocityBootstrap;
+import net.arcdevs.discordstatusbot.velocity.boot.Velocity;
 import org.bstats.velocity.Metrics;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public final class VelocityPlugin {
     @NotNull private final Path directory;
     @NotNull private final Metrics.Factory metricsFactory;
 
-    private VelocityBootstrap bootstrap;
+    private Velocity velocity;
 
     @Inject
     public VelocityPlugin(@NotNull final ProxyServer server, @NotNull final Logger logger, @NotNull @DataDirectory final Path directory, @NotNull final Metrics.Factory metricsFactory) {
@@ -33,12 +33,12 @@ public final class VelocityPlugin {
 
     @Subscribe
     public void onProxyInitialize(@NotNull final ProxyInitializeEvent event) {
-        this.bootstrap = new VelocityBootstrap(this);
-        this.bootstrap.startup();
+        this.velocity = new Velocity(this);
+        this.velocity.enablePlugin();
     }
 
     @Subscribe
     public void onProxyShutdown(@NotNull final ProxyShutdownEvent event) {
-        this.bootstrap.shutdown();
+        this.velocity.disablePlugin();
     }
 }
