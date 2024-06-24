@@ -3,8 +3,9 @@ package net.arcdevs.discordstatusbot.velocity.boot;
 import lombok.Getter;
 import net.arcdevs.discordstatusbot.common.Discord;
 import net.arcdevs.discordstatusbot.common.DiscordPlatform;
-import net.arcdevs.discordstatusbot.common.DiscordLogger;
+import net.arcdevs.discordstatusbot.common.logger.DiscordLogger;
 import net.arcdevs.discordstatusbot.velocity.VelocityPlugin;
+import net.arcdevs.discordstatusbot.velocity.logger.VelocityLogger;
 import org.bstats.velocity.Metrics;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,22 +28,7 @@ public class Velocity extends Discord {
 
     @Override
     public @NotNull DiscordLogger getLogger() {
-        return new DiscordLogger() {
-            @Override
-            public void info(String message) {
-                Velocity.this.getPlugin().getLogger().info(message);
-            }
-
-            @Override
-            public void warn(String message) {
-                Velocity.this.getPlugin().getLogger().warn(message);
-            }
-
-            @Override
-            public void severe(String message) {
-                Velocity.this.getPlugin().getLogger().error(message);
-            }
-        };
+        return new VelocityLogger(this.getPlugin().getLogger());
     }
 
     @Override

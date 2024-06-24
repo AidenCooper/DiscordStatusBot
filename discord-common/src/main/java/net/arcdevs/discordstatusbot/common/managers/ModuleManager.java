@@ -1,4 +1,4 @@
-package net.arcdevs.discordstatusbot.common;
+package net.arcdevs.discordstatusbot.common.managers;
 
 import lombok.AccessLevel;
 import lombok.Getter;

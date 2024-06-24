@@ -28,6 +28,8 @@ bukkit {
 
     foliaSupported = true
 
+    apiVersion = "1.13"
+
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
     softDepend = listOf("PlaceholderAPI")
 }

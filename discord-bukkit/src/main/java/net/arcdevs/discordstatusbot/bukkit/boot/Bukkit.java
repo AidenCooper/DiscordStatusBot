@@ -2,8 +2,9 @@ package net.arcdevs.discordstatusbot.bukkit.boot;
 
 import lombok.Getter;
 import net.arcdevs.discordstatusbot.bukkit.BukkitPlugin;
+import net.arcdevs.discordstatusbot.bukkit.logger.BukkitLogger;
 import net.arcdevs.discordstatusbot.common.Discord;
-import net.arcdevs.discordstatusbot.common.DiscordLogger;
+import net.arcdevs.discordstatusbot.common.logger.DiscordLogger;
 import net.arcdevs.discordstatusbot.common.DiscordPlatform;
 import org.bstats.bukkit.Metrics;
 import org.jetbrains.annotations.NotNull;
@@ -27,22 +28,7 @@ public class Bukkit extends Discord {
 
     @Override
     public @NotNull DiscordLogger getLogger() {
-        return new DiscordLogger() {
-            @Override
-            public void info(String message) {
-                Bukkit.this.getLogger().info(message);
-            }
-
-            @Override
-            public void warn(String message) {
-                Bukkit.this.getLogger().warn(message);
-            }
-
-            @Override
-            public void severe(String message) {
-                Bukkit.this.getLogger().severe(message);
-            }
-        };
+        return new BukkitLogger(this.getPlugin().getLogger());
     }
 
     @Override

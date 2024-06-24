@@ -10,7 +10,6 @@ import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.arcdevs.discordstatusbot.common.Discord;
 import net.arcdevs.discordstatusbot.common.exceptions.ModuleException;
 import net.arcdevs.discordstatusbot.common.modules.DiscordModule;
 import net.arcdevs.discordstatusbot.common.util.HandledLinkedHashMap;

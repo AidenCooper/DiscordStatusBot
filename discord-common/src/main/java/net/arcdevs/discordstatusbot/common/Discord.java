@@ -2,7 +2,10 @@ package net.arcdevs.discordstatusbot.common;
 
 import lombok.Getter;
 import net.arcdevs.discordstatusbot.common.exceptions.AlreadyInitializedException;
+import net.arcdevs.discordstatusbot.common.logger.DiscordLogger;
+import net.arcdevs.discordstatusbot.common.managers.ModuleManager;
 import net.arcdevs.discordstatusbot.common.modules.config.ConfigModule;
+import net.arcdevs.discordstatusbot.common.scheduler.DiscordScheduler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -31,11 +34,13 @@ public abstract class Discord {
     }
 
     private final ModuleManager moduleManager;
+    private final DiscordScheduler scheduler;
 
     public Discord() {
         this.set(this);
 
         this.moduleManager = new ModuleManager();
+        this.scheduler = new DiscordScheduler();
     }
 
     public final void enablePlugin() {
@@ -49,10 +54,15 @@ public abstract class Discord {
         this.enable();
     }
 
-    public final void disablePlugin() {
-        this.getModuleManager().disable();
+    public final void disablePlugin(boolean shutdown) {
+        if(shutdown) {
+            this.shutdown();
+        } else {
+            this.getScheduler().closeThreads();
+            this.getModuleManager().disable();
 
-        this.shutdown();
+            this.disable();
+        }
     }
 
     public final void reloadPlugin() {

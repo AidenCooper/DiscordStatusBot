@@ -1,4 +1,4 @@
-package net.arcdevs.discordstatusbot.common;
+package net.arcdevs.discordstatusbot.common.logger;
 
 public interface DiscordLogger {
     void info(final String message);

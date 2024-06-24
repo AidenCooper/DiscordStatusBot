@@ -2,8 +2,9 @@ package net.arcdevs.discordstatusbot.bungee.boot;
 
 import lombok.Getter;
 import net.arcdevs.discordstatusbot.bungee.BungeePlugin;
+import net.arcdevs.discordstatusbot.bungee.logger.BungeeLogger;
 import net.arcdevs.discordstatusbot.common.Discord;
-import net.arcdevs.discordstatusbot.common.DiscordLogger;
+import net.arcdevs.discordstatusbot.common.logger.DiscordLogger;
 import net.arcdevs.discordstatusbot.common.DiscordPlatform;
 import org.bstats.bungeecord.Metrics;
 import org.jetbrains.annotations.NotNull;
@@ -28,22 +29,7 @@ public class Bungee extends Discord {
 
     @Override
     public @NotNull DiscordLogger getLogger() {
-        return new DiscordLogger() {
-            @Override
-            public void info(String message) {
-                Bungee.this.getLogger().info(message);
-            }
-
-            @Override
-            public void warn(String message) {
-                Bungee.this.getLogger().warn(message);
-            }
-
-            @Override
-            public void severe(String message) {
-                Bungee.this.getLogger().severe(message);
-            }
-        };
+        return new BungeeLogger(this.getPlugin().getLogger());
     }
 
     @Override
