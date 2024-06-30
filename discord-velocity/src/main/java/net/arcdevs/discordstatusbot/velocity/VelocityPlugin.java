@@ -36,11 +36,11 @@ public final class VelocityPlugin {
     @Subscribe
     public void onProxyInitialize(@NotNull final ProxyInitializeEvent event) {
         this.setVelocity(new Velocity(this));
-        this.getVelocity().enablePlugin();
+        this.getVelocity().enable();
     }
 
     @Subscribe
     public void onProxyShutdown(@NotNull final ProxyShutdownEvent event) {
-        this.getVelocity().disablePlugin(false);
+        this.getVelocity().disable();
     }
 }

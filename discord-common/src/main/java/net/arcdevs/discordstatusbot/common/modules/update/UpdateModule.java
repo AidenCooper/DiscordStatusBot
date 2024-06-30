@@ -18,6 +18,7 @@ public class UpdateModule extends DiscordModule {
         this.resourceID = resourceID;
     }
 
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     @Override
     protected void enable() {
         String threadName = "discord-update-module";
@@ -36,9 +37,9 @@ public class UpdateModule extends DiscordModule {
             } catch (IOException exception) {
                 Discord.get().getLogger().info("Unable to check for updates.");
             }
-
-           Discord.get().getScheduler().closeThread(threadName);
         });
+
+        Discord.get().getScheduler().closeThread(threadName);
     }
 
     @Override

@@ -14,11 +14,11 @@ public final class BukkitPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         this.setBukkit(new Bukkit(this));
-        this.getBukkit().enablePlugin();
+        this.getBukkit().enable();
     }
 
     @Override
     public void onDisable() {
-        this.getBukkit().disablePlugin(false);
+        this.getBukkit().disable();
     }
 }

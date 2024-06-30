@@ -3,22 +3,27 @@ package net.arcdevs.discordstatusbot.bungee.boot;
 import lombok.Getter;
 import net.arcdevs.discordstatusbot.bungee.BungeePlugin;
 import net.arcdevs.discordstatusbot.bungee.logger.BungeeLogger;
+import net.arcdevs.discordstatusbot.bungee.modules.command.BungeeCommandModule;
+import net.arcdevs.discordstatusbot.bungee.modules.metrics.BungeeMetricsModule;
 import net.arcdevs.discordstatusbot.common.Discord;
 import net.arcdevs.discordstatusbot.common.logger.DiscordLogger;
 import net.arcdevs.discordstatusbot.common.DiscordPlatform;
 import org.bstats.bungeecord.Metrics;
 import org.jetbrains.annotations.NotNull;
+import revxrsal.commands.bungee.BungeeCommandHandler;
 
 import java.io.File;
 import java.util.logging.Handler;
 
 @Getter
 public class Bungee extends Discord {
+    public static Bungee INSTANCE;
+
     @NotNull private final BungeePlugin plugin;
 
-    private Metrics metrics;
-
     public Bungee(@NotNull final BungeePlugin plugin) {
+        Bungee.INSTANCE = this;
+
         this.plugin = plugin;
     }
 
@@ -38,23 +43,31 @@ public class Bungee extends Discord {
     }
 
     @Override
-    protected void enable() {
-        this.metrics = new Metrics(this.getPlugin(), this.getPlatform().getId());
+    public void enable() {
+        super.enable();
+
+        BungeeCommandHandler commandHandler = BungeeCommandHandler.create(this.getPlugin());
+        Metrics metrics = new Metrics(this.getPlugin(), this.getPlatform().getId());
+
+        this.getModuleManager().add(BungeeCommandModule.class, new BungeeCommandModule(commandHandler));
+        this.getModuleManager().add(BungeeMetricsModule.class, new BungeeMetricsModule(metrics));
     }
 
     @Override
-    protected void disable() {
-        if(this.getMetrics() != null) this.getMetrics().shutdown();
+    public void disable() {
+        super.disable();
     }
 
     @Override
-    protected void reload() {
-
+    public void reload() {
+        super.reload();
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    protected void shutdown() {
+    public void shutdown() {
+        super.shutdown();
+
         try {
             this.getPlugin().onDisable();
             for(Handler handler : this.getPlugin().getLogger().getHandlers()) {

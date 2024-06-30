@@ -1,4 +1,5 @@
 [versions]
+adventure = "4.17.0"
 adventure-platform = "4.3.3"
 bstats = "3.0.2"
 lamp = "3.2.1"
@@ -12,10 +13,10 @@ plugin-yml-bungee = { id = "net.minecrell.plugin-yml.bungee", version.ref = "plu
 shadow = "io.github.goooler.shadow:8.1.7"
 
 [libraries]
-adventure-platform-api = { module = "net.kyori:adventure-platform-api", version.ref = "adventure-platform" }
-adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", version.ref = "adventure-platform" }
-adventure-platform-bungee = { module = "net.kyori:adventure-platform-bungee", version.ref = "adventure-platform" }
-adventure-platform-velocity = { module = "net.kyori:adventure-platform-velocity", version.ref = "adventure-platform" }
+adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+adventure-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }
+adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+adventure-plain = { module = "net.kyori:adventure-text-serializer-plain", version.ref = "adventure" }
 bstats-bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
 bstats-bungee = { module = "org.bstats:bstats-bungeecord", version.ref = "bstats" }
 bstats-velocity = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
@@ -30,6 +31,7 @@ lamp-velocity = { module = "com.github.Revxrsal.Lamp:velocity", version.ref = "l
 
 annotations = "org.jetbrains:annotations:24.1.0"
 boosted-yaml = "dev.dejvokep:boosted-yaml:1.3.5"
+commons-lang3 = "org.apache.commons:commons-lang3:3.14.0"
 jda = "net.dv8tion:JDA:5.0.0-beta.24"
 lombok = "org.projectlombok:lombok:1.18.32"
 placeholder-api = "me.clip:placeholderapi:2.11.6"

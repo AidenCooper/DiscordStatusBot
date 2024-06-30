@@ -14,13 +14,13 @@ public final class BungeePlugin extends Plugin {
     @Override
     public void onEnable() {
         this.setBungee(new Bungee(this));
-        this.getBungee().enablePlugin();
+        this.getBungee().enable();
 
 
     }
 
     @Override
     public void onDisable() {
-        this.getBungee().disablePlugin(false);
+        this.getBungee().disable();
     }
 }

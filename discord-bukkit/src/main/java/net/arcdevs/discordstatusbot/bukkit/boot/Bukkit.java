@@ -3,21 +3,26 @@ package net.arcdevs.discordstatusbot.bukkit.boot;
 import lombok.Getter;
 import net.arcdevs.discordstatusbot.bukkit.BukkitPlugin;
 import net.arcdevs.discordstatusbot.bukkit.logger.BukkitLogger;
+import net.arcdevs.discordstatusbot.bukkit.modules.command.BukkitCommandModule;
+import net.arcdevs.discordstatusbot.bukkit.modules.metrics.BukkitMetricsModule;
 import net.arcdevs.discordstatusbot.common.Discord;
 import net.arcdevs.discordstatusbot.common.logger.DiscordLogger;
 import net.arcdevs.discordstatusbot.common.DiscordPlatform;
 import org.bstats.bukkit.Metrics;
 import org.jetbrains.annotations.NotNull;
+import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.io.File;
 
 @Getter
 public class Bukkit extends Discord {
+    public static Bukkit INSTANCE;
+
     @NotNull private final BukkitPlugin plugin;
 
-    private Metrics metrics;
-
     public Bukkit(@NotNull final BukkitPlugin plugin) {
+        Bukkit.INSTANCE = this;
+
         this.plugin = plugin;
     }
 
@@ -37,22 +42,32 @@ public class Bukkit extends Discord {
     }
 
     @Override
-    protected void enable() {
-        this.metrics = new Metrics(this.getPlugin(), this.getPlatform().getId());
+    public void enable() {
+        super.enable();
+
+        BukkitCommandHandler commandHandler = BukkitCommandHandler.create(this.getPlugin());
+        commandHandler.enableAdventure();
+        commandHandler.registerBrigadier();
+        Metrics metrics = new Metrics(this.getPlugin(), this.getPlatform().getId());
+
+        this.getModuleManager().add(BukkitCommandModule.class, new BukkitCommandModule(commandHandler));
+        this.getModuleManager().add(BukkitMetricsModule.class, new BukkitMetricsModule(metrics));
     }
 
     @Override
-    protected void disable() {
-        if(this.getMetrics() != null) this.getMetrics().shutdown();
+    public void disable() {
+        super.disable();
     }
 
     @Override
-    protected void reload() {
-
+    public void reload() {
+        super.reload();
     }
 
     @Override
-    protected void shutdown() {
+    public void shutdown() {
+        super.shutdown();
+
         this.getPlugin().getPluginLoader().disablePlugin(this.getPlugin());
     }
 }

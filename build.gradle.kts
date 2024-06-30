@@ -19,9 +19,13 @@ allprojects {
         annotationProcessor(rootProject.libs.lombok)
 
         compileOnly(rootProject.libs.annotations)
-        compileOnly(rootProject.libs.lamp.common)
 
+        implementation(rootProject.libs.adventure.legacy)
+        implementation(rootProject.libs.adventure.minimessage)
+        implementation(rootProject.libs.adventure.plain)
         implementation(rootProject.libs.boosted.yaml)
+        implementation(rootProject.libs.commons.lang3)
+        implementation(rootProject.libs.lamp.common)
     }
 
     tasks {
