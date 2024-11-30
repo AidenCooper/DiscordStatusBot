@@ -12,11 +12,11 @@ repositories {
 dependencies {
     implementation(project(":common"))
 
+    compileOnly(rootProject.libs.placeholder.api)
     compileOnly(rootProject.libs.spigot)
 
     implementation(rootProject.libs.bstats.bukkit)
     implementation(rootProject.libs.lamp.bukkit)
-    implementation(rootProject.libs.placeholder.api)
 }
 
 bukkit {

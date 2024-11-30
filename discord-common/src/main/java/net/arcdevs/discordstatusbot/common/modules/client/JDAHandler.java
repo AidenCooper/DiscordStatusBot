@@ -91,6 +91,8 @@ public class JDAHandler {
     }
 
     public void reload() {
+        this.setLastSentEmbed(null);
+
         if(!this.isEnabled()) this.enable();
         else {
             YamlDocument clientConfig = ((ConfigModule) Discord.get().getModuleManager().get(ConfigModule.class)).getConfig(ConfigName.CLIENT);
@@ -279,7 +281,10 @@ public class JDAHandler {
                     catch (IOException exception) { Discord.get().getLogger().severe("Could not save message-id to data.yml"); }
 
                     this.setUpdatingMessage(false);
-                }, (exception) -> this.setUpdatingMessage(false));
+                }, (exception) -> {
+                    this.setUpdatingMessage(false);
+                    this.setLastSentEmbed(null);
+                });
             } catch (InsufficientPermissionException exception) {
                 Discord.get().getLogger().severe(String.format("Lacking \"%s\" permission.", exception.getPermission().getName()));
                 this.setFrozenPermission(true);
