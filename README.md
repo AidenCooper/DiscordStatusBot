@@ -7,11 +7,14 @@ DSB allows you to showcase your minecraft server to your discord server in a hig
 ![](https://i.ibb.co/LY86YyJ/2024-06-05-19-38-26.png)
 
 ## Features
+* Velocity, Bungee, and Bukkit support.
+* 1.8+ Bukkit support. Latest versions of Bungee and Velocity.
 * PlaceholderAPI support.
-* Highly customizable discord message.
+* Highly customizable discord status message.
+* Does not spam console or discord.
 * Lightweight and optimised.
 * Useful error messages and error handling.
-* Open source.
+* Open source under the GPL license.
 * Multi-versioned.
 
 ## Setup discord bot
