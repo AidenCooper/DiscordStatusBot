@@ -32,6 +32,10 @@ public class ModuleManager {
         if(this.isEnabled()) this.getModules().get(clazz).enableModule();
     }
 
+    public DiscordModule get(@NotNull final Class<? extends DiscordModule> clazz) {
+        return this.getModules().get(clazz);
+    }
+
     public void remove(@NotNull final Class<? extends DiscordModule> clazz) {
         DiscordModule module = this.getModules().remove(clazz);
         if(module != null) module.disableModule();

@@ -2,10 +2,12 @@ package net.arcdevs.discordstatusbot.bungee.boot;
 
 import lombok.Getter;
 import net.arcdevs.discordstatusbot.bungee.BungeePlugin;
+import net.arcdevs.discordstatusbot.bungee.dependency.BungeeDependency;
 import net.arcdevs.discordstatusbot.bungee.logger.BungeeLogger;
 import net.arcdevs.discordstatusbot.bungee.modules.command.BungeeCommandModule;
 import net.arcdevs.discordstatusbot.bungee.modules.metrics.BungeeMetricsModule;
 import net.arcdevs.discordstatusbot.common.Discord;
+import net.arcdevs.discordstatusbot.common.dependency.DiscordDependency;
 import net.arcdevs.discordstatusbot.common.logger.DiscordLogger;
 import net.arcdevs.discordstatusbot.common.DiscordPlatform;
 import org.bstats.bungeecord.Metrics;
@@ -28,6 +30,11 @@ public class Bungee extends Discord {
     }
 
     @Override
+    public @NotNull DiscordDependency getDependency() {
+        return new BungeeDependency();
+    }
+
+    @Override
     public @NotNull File getDirectory() {
         return this.getPlugin().getDataFolder();
     }
@@ -47,7 +54,7 @@ public class Bungee extends Discord {
         super.enable();
 
         BungeeCommandHandler commandHandler = BungeeCommandHandler.create(this.getPlugin());
-        Metrics metrics = new Metrics(this.getPlugin(), this.getPlatform().getId());
+        Metrics metrics = new Metrics(this.getPlugin(), this.getPlatform().getMetricsID());
 
         this.getModuleManager().add(BungeeCommandModule.class, new BungeeCommandModule(commandHandler));
         this.getModuleManager().add(BungeeMetricsModule.class, new BungeeMetricsModule(metrics));
@@ -70,9 +77,9 @@ public class Bungee extends Discord {
 
         try {
             this.getPlugin().onDisable();
-            for(Handler handler : this.getPlugin().getLogger().getHandlers()) {
-                handler.close();
-            }
+
+            for(Handler handler : this.getPlugin().getLogger().getHandlers()) handler.close();
+
             this.getPlugin().getProxy().getScheduler().cancel(this.getPlugin());
             this.getPlugin().getExecutorService().shutdownNow();
         } catch (Throwable throwable) {

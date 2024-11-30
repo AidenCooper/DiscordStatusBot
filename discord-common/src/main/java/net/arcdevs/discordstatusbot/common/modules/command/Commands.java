@@ -23,11 +23,11 @@ public class Commands {
         int maxPages = entries.getPageSize(pageSize);
         CommandHelp<String> entryList = entries.paginate(page, pageSize);
 
-        module.sendMessage(actor, MiniMessage.miniMessage().deserialize("<gray><st>                                                                                 </st>"));
+        module.sendMessage(actor, MiniMessage.miniMessage().deserialize("<gray><st>                                                                                </st>"));
         module.sendMessage(actor, MiniMessage.miniMessage().deserialize(String.format("<aqua>Page <gray>(%s/%s)", page, maxPages)));
         module.sendMessage(actor, Component.text(""));
         for(String entry : entryList) module.sendMessage(actor, MiniMessage.miniMessage().deserialize(entry));
-        module.sendMessage(actor, MiniMessage.miniMessage().deserialize("<gray><st>                                                                                 </st>"));
+        module.sendMessage(actor, MiniMessage.miniMessage().deserialize("<gray><st>                                                                                </st>"));
     }
 
     @Subcommand("reload")

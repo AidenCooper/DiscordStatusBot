@@ -1,18 +1,31 @@
 package net.arcdevs.discordstatusbot.common.modules.client;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.regex.Pattern;
+import lombok.AccessLevel;
+import lombok.Getter;
+import net.arcdevs.discordstatusbot.common.Discord;
+import net.arcdevs.discordstatusbot.common.modules.DiscordModule;
 
-public class ClientModule {
-    private final ScheduledExecutorService UPDATER_SERVICE = Executors.newSingleThreadScheduledExecutor(runnable -> {
-        final Thread thread = Executors.defaultThreadFactory().newThread(runnable);
-        thread.setName("discord-updater");
-        thread.setDaemon(true);
-        return thread;
-    });
-    private final Pattern URL_PATTERN = Pattern.compile("\\s*(https?|attachment)://\\S+\\s*", Pattern.CASE_INSENSITIVE);
+@Getter(AccessLevel.PUBLIC)
+public class ClientModule extends DiscordModule {
+
+    private final JDAHandler client;
 
     public ClientModule() {
+        this.client = new JDAHandler();
+    }
+
+    @Override
+    protected void enable() {
+        this.getClient().enable();
+    }
+
+    @Override
+    protected void disable() {
+        this.getClient().disable();
+    }
+
+    @Override
+    protected void reload() {
+        this.getClient().reload();
     }
 }

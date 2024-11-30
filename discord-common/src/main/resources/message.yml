@@ -7,7 +7,7 @@ config-version: 2
 ##################################################################
 ########################### MESSAGE ##############################
 ##################################################################
-online: # Every text field has PlaceholderAPI/PAPIProxyBridge support.
+online: # PlaceholderAPI supported. %server_online% is an internal placeholder.
   author:
     name: 'MysticLegends'
     url: 'https://github.com/AidenCooper'
@@ -36,7 +36,7 @@ online: # Every text field has PlaceholderAPI/PAPIProxyBridge support.
     url: ''
   thumbnail: 'https://i.ibb.co/s3YqgcN/ml-transparent-icon.png'
 
-offline: # Every text field has PlaceholderAPI/PAPIProxyBridge support.
+offline: # PlaceholderAPI supported. %server_online% is an internal placeholder.
   author:
     name: 'Mystic Legends'
     url: 'https://github.com/AidenCooper'

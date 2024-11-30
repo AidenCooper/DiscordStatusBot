@@ -2,10 +2,12 @@ package net.arcdevs.discordstatusbot.bukkit.boot;
 
 import lombok.Getter;
 import net.arcdevs.discordstatusbot.bukkit.BukkitPlugin;
+import net.arcdevs.discordstatusbot.bukkit.dependency.BukkitDependency;
 import net.arcdevs.discordstatusbot.bukkit.logger.BukkitLogger;
 import net.arcdevs.discordstatusbot.bukkit.modules.command.BukkitCommandModule;
 import net.arcdevs.discordstatusbot.bukkit.modules.metrics.BukkitMetricsModule;
 import net.arcdevs.discordstatusbot.common.Discord;
+import net.arcdevs.discordstatusbot.common.dependency.DiscordDependency;
 import net.arcdevs.discordstatusbot.common.logger.DiscordLogger;
 import net.arcdevs.discordstatusbot.common.DiscordPlatform;
 import org.bstats.bukkit.Metrics;
@@ -27,6 +29,11 @@ public class Bukkit extends Discord {
     }
 
     @Override
+    public @NotNull DiscordDependency getDependency() {
+        return new BukkitDependency();
+    }
+
+    @Override
     public @NotNull File getDirectory() {
         return this.getPlugin().getDataFolder();
     }
@@ -45,11 +52,13 @@ public class Bukkit extends Discord {
     public void enable() {
         super.enable();
 
+        // Configure modules
         BukkitCommandHandler commandHandler = BukkitCommandHandler.create(this.getPlugin());
         commandHandler.enableAdventure();
         commandHandler.registerBrigadier();
-        Metrics metrics = new Metrics(this.getPlugin(), this.getPlatform().getId());
+        Metrics metrics = new Metrics(this.getPlugin(), this.getPlatform().getMetricsID());
 
+        // Add modules
         this.getModuleManager().add(BukkitCommandModule.class, new BukkitCommandModule(commandHandler));
         this.getModuleManager().add(BukkitMetricsModule.class, new BukkitMetricsModule(metrics));
     }

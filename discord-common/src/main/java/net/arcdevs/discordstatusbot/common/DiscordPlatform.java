@@ -11,5 +11,5 @@ public enum DiscordPlatform {
     VELOCITY("Velocity", 22186);
 
     private final String name;
-    private final int id;
+    private final int metricsID;
 }

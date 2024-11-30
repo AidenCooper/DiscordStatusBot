@@ -4,7 +4,6 @@ plugins {
 
 repositories {
     maven(url = "https://oss.sonatype.org/content/repositories/snapshots/") // Bungee
-    maven(url = "https://repo.william278.net/releases/") // PAPIProxyBridge
 }
 
 dependencies {
@@ -14,25 +13,15 @@ dependencies {
 
     implementation(rootProject.libs.bstats.bungee)
     implementation(rootProject.libs.lamp.bungee)
-    implementation(rootProject.libs.placeholder.proxy)
 }
 
 bungee {
     name = rootProject.name
     version = rootProject.version.toString()
     description = rootProject.description
+    author = rootProject.findProperty("author").toString()
 
     main = rootProject.group.toString() + ".bungee.BungeePlugin"
-
-    softDepends = setOf("papiproxybridge")
-}
-
-tasks {
-    shadowJar {
-        dependencies {
-            exclude(dependency(rootProject.libs.placeholder.proxy.get()))
-        }
-    }
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8

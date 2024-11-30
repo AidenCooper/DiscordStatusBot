@@ -1,6 +1,5 @@
 repositories {
     maven(url = "https://repo.papermc.io/repository/maven-public/") // Velocity
-    maven(url = "https://repo.william278.net/releases/") // PAPIProxyBridge
 }
 
 dependencies {
@@ -11,7 +10,6 @@ dependencies {
 
     implementation(rootProject.libs.bstats.velocity)
     implementation(rootProject.libs.lamp.velocity)
-    implementation(rootProject.libs.placeholder.proxy)
 }
 
 tasks {
@@ -19,18 +17,13 @@ tasks {
         val props = mapOf(
             "version" to rootProject.version.toString().split("-")[0],
             "description" to rootProject.description,
-            "main" to rootProject.group.toString() + ".velocity.VelocityPlugin"
+            "main" to rootProject.group.toString() + ".velocity.VelocityPlugin",
+            "author" to rootProject.findProperty("author").toString()
         )
 
         inputs.properties(props)
         filesMatching("velocity-plugin.json") {
             expand(props)
-        }
-    }
-
-    shadowJar {
-        dependencies {
-            exclude(dependency(rootProject.libs.placeholder.proxy.get()))
         }
     }
 }

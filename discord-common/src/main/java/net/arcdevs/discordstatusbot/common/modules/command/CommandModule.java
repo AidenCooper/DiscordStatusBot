@@ -48,7 +48,7 @@ public abstract class CommandModule extends DiscordModule {
         });
         this.commandHandler.registerExceptionHandler(NumberNotInRangeException.class, (actor, exception) -> {
             String parameter = exception.getParameter().getName();
-            this.sendMessage(actor, MiniMessage.miniMessage().deserialize(String.format("<red>%s must be between %s and %s (found %s).", parameter.substring(0, 1).toUpperCase() + parameter.substring(1), (int) exception.getMinimum(), (int) exception.getMaximum(), exception.getInput())));
+            this.sendMessage(actor, MiniMessage.miniMessage().deserialize(String.format("<red>%s number must be between %s and %s (found %s).", parameter.substring(0, 1).toUpperCase() + parameter.substring(1), (int) exception.getMinimum(), (int) exception.getMaximum(), exception.getInput())));
         });
         this.commandHandler.registerPermissionReader(this.getPermissionReader());
         this.commandHandler.setHelpWriter((command, actor) -> {

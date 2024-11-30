@@ -11,7 +11,6 @@ allprojects {
         mavenCentral() // Annotations, Lombok
 
         maven(url = "https://jitpack.io/") // Lamp
-        // maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots/") // libby
     }
 
     dependencies {
@@ -25,6 +24,9 @@ allprojects {
         implementation(rootProject.libs.adventure.plain)
         implementation(rootProject.libs.boosted.yaml)
         implementation(rootProject.libs.commons.lang3)
+        implementation(rootProject.libs.jda) {
+            exclude(module = "opus-java")
+        }
         implementation(rootProject.libs.lamp.common)
     }
 
@@ -36,9 +38,7 @@ allprojects {
 
             val prefix = rootProject.group.toString() + ".libs"
             relocate("org.bstats", "$prefix.bstats")
-            relocate("com.google.gson", "$prefix.gson")
             relocate("revxrsal", "$prefix.lamp")
-            // relocate("com.alessiodp.libby", "$prefix.libby")
 
             exclude("META-INF/*/**")
 
@@ -53,6 +53,7 @@ allprojects {
         jar {
             manifest {
                 attributes["Implementation-Version"] = rootProject.version
+                attributes["Implementation-Vendor"] = rootProject.findProperty("author").toString()
             }
         }
     }

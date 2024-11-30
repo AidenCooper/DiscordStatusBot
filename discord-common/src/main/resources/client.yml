@@ -10,5 +10,5 @@ config-version: 2
 token: ''
 channel-id: ''
 
-delay-interval: 5 # The initial delay in seconds before the first update call.
+delay-interval: 5 # The initial delay in seconds before the first update call when starting the plugin.
 update-interval: 30 # The amount of seconds between each update call.

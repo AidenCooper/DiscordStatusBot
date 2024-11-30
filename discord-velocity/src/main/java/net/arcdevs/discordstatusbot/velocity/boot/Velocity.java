@@ -3,8 +3,10 @@ package net.arcdevs.discordstatusbot.velocity.boot;
 import lombok.Getter;
 import net.arcdevs.discordstatusbot.common.Discord;
 import net.arcdevs.discordstatusbot.common.DiscordPlatform;
+import net.arcdevs.discordstatusbot.common.dependency.DiscordDependency;
 import net.arcdevs.discordstatusbot.common.logger.DiscordLogger;
 import net.arcdevs.discordstatusbot.velocity.VelocityPlugin;
+import net.arcdevs.discordstatusbot.velocity.dependency.VelocityDependency;
 import net.arcdevs.discordstatusbot.velocity.logger.VelocityLogger;
 import net.arcdevs.discordstatusbot.velocity.modules.command.VelocityCommandModule;
 import net.arcdevs.discordstatusbot.velocity.modules.metrics.VelocityMetricsModule;
@@ -27,6 +29,11 @@ public class Velocity extends Discord {
     }
 
     @Override
+    public @NotNull DiscordDependency getDependency() {
+        return new VelocityDependency();
+    }
+
+    @Override
     public @NotNull File getDirectory() {
         return this.getPlugin().getDirectory().toFile();
     }
@@ -46,7 +53,7 @@ public class Velocity extends Discord {
         super.enable();
 
         VelocityCommandHandler commandHandler = VelocityCommandHandler.create(this.getPlugin(), this.getPlugin().getServer());
-        Metrics metrics = this.getPlugin().getMetricsFactory().make(this.getPlugin(), this.getPlatform().getId());
+        Metrics metrics = this.getPlugin().getMetricsFactory().make(this.getPlugin(), this.getPlatform().getMetricsID());
 
         this.getModuleManager().add(VelocityCommandModule.class, new VelocityCommandModule(commandHandler));
         this.getModuleManager().add(VelocityMetricsModule.class, new VelocityMetricsModule(metrics));

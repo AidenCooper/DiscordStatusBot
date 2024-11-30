@@ -17,7 +17,7 @@ public abstract class DiscordModule {
         this.setEnabled(false);
     }
 
-    public final void enableModule() {
+    public void enableModule() {
         if(!this.isEnabled()) this.setEnabled(true);
         else return;
 

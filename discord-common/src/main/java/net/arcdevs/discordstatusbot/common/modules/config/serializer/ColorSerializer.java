@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ColorSerializer extends Serializer<Color> {
-    private ColorSerializer() {
+    public ColorSerializer() {
         super(Color.decode("#23272A"));
     }
 
@@ -24,7 +24,7 @@ public class ColorSerializer extends Serializer<Color> {
     public List<Color> getList(@NotNull YamlDocument document, @NotNull Route route) {
         List<Color> colors = new ArrayList<>();
         document.getList(route).forEach(colorObject -> {
-
+            // TODO
         });
 
         return colors;
