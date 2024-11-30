@@ -134,10 +134,13 @@ public class JDAHandler {
         }
 
         if(!needed.isEmpty()) {
-            if(!this.isFrozen()) Discord.get().getLogger().severe(String.format("Lacking \"%s\" permission(s).", needed));
-            this.setFrozenChannel(true);
+            if(!this.isFrozenPermission()) Discord.get().getLogger().severe(String.format("Lacking \"%s\" permission(s).", needed));
+            this.setFrozenPermission(true);
             return true;
         }
+
+        this.setFrozenChannel(false);
+        this.setFrozenPermission(false);
 
         return false;
     }

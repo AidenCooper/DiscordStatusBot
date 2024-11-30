@@ -1,7 +1,7 @@
 [versions]
 adventure = "4.17.0"
 bstats = "3.0.2"
-lamp = "3.2.1"
+lamp = "3.3.2"
 plugin-yml = "0.6.0"
 
 [plugins]
