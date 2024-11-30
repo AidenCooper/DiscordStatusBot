@@ -16,6 +16,7 @@ DSB allows you to showcase your minecraft server to your discord server in a hig
 * Useful error messages and error handling.
 * Open source under the GPL license.
 * Multi-versioned.
+* Multi-languaged.
 
 ## Setup discord bot
 1. Go to https://discord.com/developers/applications.
